@@ -150,5 +150,82 @@ def resize_image():
 
     return render_template('resize_image.html')
 
+@app.route('/compress-image', methods=['GET', 'POST'])
+def compress_image():
+    if request.method == 'POST':
+        if 'image_file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+            
+        file = request.files['image_file']
+        quality = request.form.get('quality', 60)
+        
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+            
+        if file:
+            filename = secure_filename(file.filename)
+            input_filepath = os.path.join(UPLOAD_FOLDER, filename)
+            file.save(input_filepath)
+            
+            try:
+                img = Image.open(input_filepath)
+                if img.mode in ('RGBA', 'P') and img.format in ('JPEG', 'JPG'):
+                    img = img.convert('RGB')
+                
+                output_filename = f"compressed_{filename}"
+                output_filepath = os.path.join(UPLOAD_FOLDER, output_filename)
+                
+                img.save(output_filepath, optimize=True, quality=int(quality))
+                
+                return send_file(output_filepath, as_attachment=True, download_name=output_filename)
+            except Exception as e:
+                flash(f'An error occurred: {str(e)}')
+                return redirect(request.url)
+
+    return render_template('compress_image.html')
+
+@app.route('/merge-pdf', methods=['GET', 'POST'])
+def merge_pdf():
+    if request.method == 'POST':
+        files = request.files.getlist('pdf_files')
+        
+        if not files or files[0].filename == '':
+            flash('No files selected')
+            return redirect(request.url)
+            
+        try:
+            writer = PdfWriter()
+            
+            for file in files:
+                if file and allowed_file(file.filename, {'pdf'}):
+                    filename = secure_filename(file.filename)
+                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    file.save(filepath)
+                    
+                    reader = PdfReader(filepath)
+                    if reader.is_encrypted:
+                        flash(f'Cannot merge encrypted PDF: {filename}')
+                        return redirect(request.url)
+                        
+                    for page in reader.pages:
+                        writer.add_page(page)
+                        
+            output_filename = "merged_document.pdf"
+            output_filepath = os.path.join(UPLOAD_FOLDER, output_filename)
+            
+            with open(output_filepath, "wb") as f:
+                writer.write(f)
+                
+            return send_file(output_filepath, as_attachment=True, download_name=output_filename)
+        except Exception as e:
+            flash(f'An error occurred: {str(e)}')
+            return redirect(request.url)
+
+    return render_template('merge_pdf.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

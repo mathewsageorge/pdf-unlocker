@@ -3,8 +3,10 @@
 {% block title %}Free Online Tools{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Your Toolkit</h1>
-    <p style="text-align: center; color: #7f8c8d;">Select a free tool below to get started.</p>
+    <div class="dashboard-header">
+        <h1>Welcome to Your Toolkit</h1>
+        <p>Select a free tool below to get started.</p>
+    </div>
     
     <div class="grid">
         <a href="/unlock-pdf" class="card">
@@ -20,6 +22,16 @@
         <a href="/resize-image" class="card">
             <h2>📏 Resize Image</h2>
             <p>Change the width and height of any image easily.</p>
+        </a>
+        
+        <a href="/compress-image" class="card">
+            <h2>🗜️ Compress Image</h2>
+            <p>Reduce the file size of your JPG or PNG images.</p>
+        </a>
+        
+        <a href="/merge-pdf" class="card">
+            <h2>📑 Merge PDFs</h2>
+            <p>Combine multiple PDF files into one single document.</p>
         </a>
     </div>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Merge PDFs{% endblock %}
+
+{% block content %}
+<div class="content-box">
+    <h1>Merge PDFs</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="pdf_files">Select Multiple PDF Files:</label>
+            <input type="file" id="pdf_files" name="pdf_files" accept=".pdf" multiple required>
+            <small>You can select multiple files by holding CTRL (or CMD) while clicking them.</small>
+        </div>
+        
+        <button type="submit">Merge and Download</button>
+    </form>
+</div>
+{% endblock %}

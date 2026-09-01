@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Compress Image{% endblock %}
+
+{% block content %}
+<div class="content-box">
+    <h1>Compress Image</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="image_file">Select Image File (JPG/PNG):</label>
+            <input type="file" id="image_file" name="image_file" accept="image/png, image/jpeg" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="quality">Compression Level:</label>
+            <select id="quality" name="quality" required>
+                <option value="85">Low Compression (High Quality)</option>
+                <option value="60" selected>Medium Compression (Recommended)</option>
+                <option value="30">High Compression (Lower Quality)</option>
+            </select>
+        </div>
+        
+        <button type="submit">Compress and Download</button>
+    </form>
+</div>
+{% endblock %}

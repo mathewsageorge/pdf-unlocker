@@ -2,155 +2,336 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Multi-Tool{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Toolkit{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --ring-color: rgba(79, 70, 229, 0.3);
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
+
+        /* Modern Navigation */
         nav {
-            background-color: #2c3e50;
-            color: white;
+            background-color: var(--surface-color);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        nav a {
-            color: white;
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
             text-decoration: none;
-            margin-right: 1.5rem;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.025em;
         }
-        nav a:hover {
-            text-decoration: underline;
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
         }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+            background-color: #f1f5f9;
+        }
+
+        /* Container & Cards */
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
         }
+
+        .content-box {
+            background-color: var(--surface-color);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
         h1 {
-            text-align: center;
-            color: #2c3e50;
+            color: var(--text-main);
             margin-top: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            letter-spacing: -0.025em;
         }
+
+        /* Forms */
         .form-group {
             margin-bottom: 1.5rem;
         }
+
         label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
         }
+
         input[type="file"],
         input[type="text"],
         input[type="password"],
         input[type="number"],
         select {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-color);
             box-sizing: border-box;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: all 0.2s;
         }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--ring-color);
+            background-color: var(--surface-color);
+        }
+
+        input[type="file"] {
+            padding: 0.5rem;
+            background-color: var(--surface-color);
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: #f1f5f9;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 1rem;
+        }
+        
+        input[type="file"]::file-selector-button:hover {
+            background-color: #e2e8f0;
+        }
+        
+        small {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Buttons */
         button {
             width: 100%;
-            padding: 0.75rem;
-            background-color: #3498db;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+            margin-top: 0.5rem;
         }
+
         button:hover {
-            background-color: #2980b9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+            background: linear-gradient(135deg, var(--primary-hover) 0%, #4f46e5 100%);
         }
+        
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Flashes */
         .flashes {
             list-style-type: none;
             padding: 0;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto 1.5rem auto;
         }
+
         .flashes li {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            border: 1px solid #f5c6cb;
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #f87171;
             font-size: 0.9rem;
+            font-weight: 500;
         }
+
+        /* Dashboard Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
+
         .card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            text-align: left;
             text-decoration: none;
             color: inherit;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
         }
+
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            border-color: #3498db;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.025);
+            border-color: #cbd5e1;
         }
+
         .card h2 {
             margin-top: 0;
-            color: #3498db;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
         }
         
-        /* Mobile Friendly Adjustments */
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Super Mobile Friendly Adjustments */
         @media (max-width: 600px) {
             nav {
                 flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+                align-items: stretch;
                 padding: 1rem;
+                gap: 1rem;
             }
-            nav div:last-child {
-                display: flex;
-                flex-wrap: wrap;
+            
+            .nav-brand {
                 justify-content: center;
-                gap: 0.75rem;
             }
-            nav a {
-                margin-right: 0;
-                font-size: 0.9rem;
+            
+            .nav-links {
+                /* Make it horizontally scrollable on mobile! */
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                justify-content: flex-start;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
             }
+            
+            .nav-links::-webkit-scrollbar {
+                display: none; /* Safari/Chrome */
+            }
+            
+            .nav-links a {
+                white-space: nowrap;
+                background-color: #f1f5f9;
+                border: 1px solid var(--border-color);
+            }
+            
             .container {
-                margin: 1rem;
-                padding: 1.5rem;
+                margin: 1.5rem auto;
             }
+            
+            .content-box {
+                padding: 1.5rem;
+                border-radius: 12px;
+            }
+            
             .flex-mobile-column {
                 flex-direction: column !important;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <nav>
-        <div>
-            <a href="/" style="font-size: 1.2rem; font-weight: bolder;">🛠️ Toolkit</a>
-        </div>
-        <div>
+        <a href="/" class="nav-brand">✨ Toolkit</a>
+        <div class="nav-links">
             <a href="/unlock-pdf">Unlock PDF</a>
             <a href="/convert-image">Convert Image</a>
             <a href="/resize-image">Resize Image</a>
+            <a href="/compress-image">Compress Image</a>
+            <a href="/merge-pdf">Merge PDF</a>
         </div>
     </nav>
     <div class="container">
