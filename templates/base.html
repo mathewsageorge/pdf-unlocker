@@ -321,9 +321,46 @@
                 font-size: 2rem;
             }
         }
+
+        /* Loading Overlay */
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid var(--border-color);
+            border-top: 6px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <h3 style="margin-top: 1.5rem; color: var(--text-main); font-weight: 600;">Processing...</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Please wait while we prepare your file.</p>
+    </div>
+
     <nav>
         <a href="/" class="nav-brand">✨ Toolkit</a>
         <div class="nav-links">
@@ -347,5 +384,35 @@
         
         {% block content %}{% endblock %}
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const forms = document.querySelectorAll('form');
+            const overlay = document.getElementById('loading-overlay');
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    // Check if all required fields are filled out
+                    if (form.checkValidity()) {
+                        overlay.style.display = 'flex';
+                        
+                        // Because the server sends a file download (which doesn't refresh the page),
+                        // we need to hide the loader when the window regains focus.
+                        window.addEventListener('focus', function hideLoader() {
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                window.removeEventListener('focus', hideLoader);
+                            }, 500); // Small delay to ensure download started
+                        });
+                        
+                        // Fallback: hide after 10 seconds just in case it gets stuck
+                        setTimeout(() => {
+                            overlay.style.display = 'none';
+                        }, 10000);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
