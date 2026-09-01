@@ -1,107 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Unlocker</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-top: 0;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        input[type="file"],
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-        }
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        .flashes {
-            list-style-type: none;
-            padding: 0;
-            margin-bottom: 1rem;
-        }
-        .flashes li {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            border: 1px solid #f5c6cb;
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Unlock PDF</h1>
-        
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class="flashes">
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+{% extends "base.html" %}
 
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="pdf_file">Select PDF File:</label>
-                <input type="file" id="pdf_file" name="pdf_file" accept=".pdf" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">PDF Password:</label>
-                <input type="text" id="password" name="password" placeholder="Enter the password..." required>
-            </div>
-            
-            <button type="submit">Unlock and Download</button>
-        </form>
+{% block title %}Free Online Tools{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Your Toolkit</h1>
+    <p style="text-align: center; color: #7f8c8d;">Select a free tool below to get started.</p>
+    
+    <div class="grid">
+        <a href="/unlock-pdf" class="card">
+            <h2>🔓 Unlock PDF</h2>
+            <p>Remove passwords and security from your PDF documents instantly.</p>
+        </a>
+        
+        <a href="/convert-image" class="card">
+            <h2>🔄 Convert Image</h2>
+            <p>Change image formats (e.g. JPG to PNG, PNG to WEBP).</p>
+        </a>
+        
+        <a href="/resize-image" class="card">
+            <h2>📏 Resize Image</h2>
+            <p>Change the width and height of any image easily.</p>
+        </a>
     </div>
-</body>
-</html>
+{% endblock %}
